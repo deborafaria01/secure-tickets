@@ -30,7 +30,7 @@ try {
 
 <div class="container mt-4">
   <h2>Bem-vindo, <?= htmlspecialchars($_SESSION['cliente']) ?></h2>
-  <p class="text-muted">Veja abaixo os eventos disponíveis:</p>
+  <p class="text-muted">Veja abaixo os eventos disponiveis:</p>
 
   <table class="table table-striped">
     <thead>
