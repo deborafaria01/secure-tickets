@@ -1,10 +1,10 @@
 <?php
 class Database {
-    private $host = 'localhost';        // ou IP do banco, se estiver externo
-    private $port = '5432';             // porta padrão do PostgreSQL
+    private $host = 'localhost';
+    private $port = '5432';
     private $dbname = 'securetickets';
-    private $user = 'seu_usuario';      // substitua pelo seu usuário real do PostgreSQL
-    private $pass = 'sua_senha';        // substitua pela sua senha real
+    private $user = 'securetickets_user';
+    private $pass = ''; // adicione a senha aqui, se houver
 
     public function connect() {
         try {
@@ -20,5 +20,6 @@ class Database {
         }
     }
 }
+
 
 
