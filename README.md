@@ -1,4 +1,4 @@
-# SecureTickets - Aula 3.5 BLINDADO V2 (Estrutura Unificada e Estável)
+# SecureTickets - Aula 3
 
 ## Como executar:
 
