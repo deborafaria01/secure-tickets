@@ -1,10 +1,18 @@
 <?php
 class Database {
-    private $host = 'localhost';
-    private $port = '5432';
-    private $dbname = 'securetickets';
-    private $user = 'securetickets_user';
-    private $pass = ''; // adicione a senha aqui, se houver
+    private $host;
+    private $port;
+    private $dbname;
+    private $user;
+    private $pass;
+
+    public function __construct() {
+        $this->host = getenv('DB_HOST') ?: 'localhost';
+        $this->port = getenv('DB_PORT') ?: '5432';
+        $this->dbname = getenv('DB_NAME') ?: 'securetickets';
+        $this->user = getenv('DB_USER') ?: 'securetickets_user';
+        $this->pass = getenv('DB_PASS') ?: ''; // Senha padrão se não houver variável
+    }
 
     public function connect() {
         try {
