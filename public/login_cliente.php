@@ -1,61 +1,59 @@
 <?php
 session_start();
-if (isset($_SESSION['cliente'])) {
-    header("Location: cliente_home.php");
+if (!isset($_SESSION['cliente'])) {
+    header("Location: login_cliente.php");
     exit();
 }
-$error = $_GET['error'] ?? '';
+
+require_once '../models/Database.php';
+include 'includes/navbar.php';
+
+$db = new Database();
+$pdo = $db->connect(); // CORREÇÃO
+
+try {
+    $stmt = $pdo->query("SELECT nome, data_evento FROM eventos ORDER BY data_evento ASC");
+    $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erro ao buscar eventos: " . $e->getMessage());
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Login do Cliente</title>
+  <title>Área do Cliente</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f8f9fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .card {
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 400px;
-      background-color: white;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 20px;
-      max-width: 150px;
-    }
-  </style>
 </head>
 <body>
-  <div class="card">
-    <img src="assets/img/logo.png" alt="Logo" class="logo">
-    <h3 class="text-center mb-4">Login do Cliente</h3>
 
-    <?php if ($error): ?>
-      <div class="alert alert-danger">Usuário ou senha inválidos.</div>
-    <?php endif; ?>
+<div class="container mt-4">
+  <h2>Bem-vindo, <?= htmlspecialchars($_SESSION['cliente']) ?></h2>
+  <p class="text-muted">Veja abaixo os eventos disponíveis:</p>
 
-    <form method="POST" action="cliente_login_process.php">
-      <div class="mb-3">
-        <label class="form-label">Usuário</label>
-        <input type="text" name="username" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Senha</label>
-        <input type="password" name="password" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-success w-100">Entrar</button>
-    </form>
-  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Evento</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php if (count($eventos) > 0): ?>
+        <?php foreach ($eventos as $evento): ?>
+          <tr>
+            <td><?= htmlspecialchars($evento['nome']) ?></td>
+            <td><?= htmlspecialchars($evento['data_evento']) ?></td>
+          </tr>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <tr><td colspan="2">Nenhum evento disponível no momento.</td></tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
+</div>
+
 </body>
 </html>
 
