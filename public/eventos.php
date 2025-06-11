@@ -9,9 +9,10 @@ require_once '../models/Database.php';
 include 'includes/navbar.php';
 
 $db = new Database();
+$pdo = $db->connect();
 
 try {
-    $stmt = $db->pdo->query("SELECT nome, data_evento FROM eventos ORDER BY data_evento ASC");
+    $stmt = $pdo->query("SELECT nome, data_evento FROM eventos ORDER BY data_evento ASC");
     $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Erro ao buscar eventos: " . $e->getMessage());
