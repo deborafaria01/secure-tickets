@@ -1,58 +1,38 @@
 <?php
 session_start();
-if (!isset($_SESSION['cliente'])) {
-    header("Location: login_cliente.php");
-    exit();
-}
-
-require_once '../models/Database.php';
-include 'includes/navbar.php';
-
-$db = new Database();
-$pdo = $db->connect(); // CORREÇÃO
-
-try {
-    $stmt = $pdo->query("SELECT nome, data_evento FROM eventos ORDER BY data_evento ASC");
-    $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erro ao buscar eventos: " . $e->getMessage());
-}
+$error = $_GET['error'] ?? '';
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Área do Cliente</title>
+  <title>Login do Cliente - SecureTickets</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
 
-<div class="container mt-4">
-  <h2>Bem-vindo, <?= htmlspecialchars($_SESSION['cliente']) ?></h2>
-  <p class="text-muted">Veja abaixo os eventos disponiveis:</p>
+  <div class="text-center p-4 bg-white rounded shadow" style="max-width: 400px; width: 100%;">
+    <img src="assets/img/logo.png" alt="SecureTickets Logo" width="240" class="mb-4">
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Evento</th>
-        <th>Data</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php if (count($eventos) > 0): ?>
-        <?php foreach ($eventos as $evento): ?>
-          <tr>
-            <td><?= htmlspecialchars($evento['nome']) ?></td>
-            <td><?= htmlspecialchars($evento['data_evento']) ?></td>
-          </tr>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <tr><td colspan="2">Nenhum evento disponível no momento.</td></tr>
-      <?php endif; ?>
-    </tbody>
-  </table>
-</div>
+    <h2 class="mb-4">Login do Cliente</h2>
+
+    <?php if ($error): ?>
+      <div class="alert alert-danger p-2">Usuário ou senha inválidos.</div>
+    <?php endif; ?>
+
+    <form method="POST" action="cliente_login_process.php">
+      <div class="mb-3 text-start">
+        <label for="username" class="form-label">Usuário</label>
+        <input type="text" name="username" id="username" class="form-control" required>
+      </div>
+      <div class="mb-3 text-start">
+        <label for="password" class="form-label">Senha</label>
+        <input type="password" name="password" id="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Entrar</button>
+    </form>
+  </div>
 
 </body>
 </html>
