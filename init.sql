@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS eventos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    data_evento DATE NOT NULL
+);
