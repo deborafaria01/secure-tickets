@@ -20,5 +20,9 @@ jobs:
 
       - name: Deploy via rsync
         run: |
-          rsync -avz -e "ssh -i deploy_key -o StrictHostKeyChecking=no" ./ ec2-user@${{ secrets.EC2_HOST }}:/var/www/html/securetickets/
-
+          rsync -avz \
+            --exclude='.git' \
+            --exclude='deploy_key' \
+            --exclude='.github' \
+            -e "ssh -i deploy_key -o StrictHostKeyChecking=no" ./ \
+            ec2-user@${{ secrets.EC2_HOST }}:/var/www/html/securetickets/
