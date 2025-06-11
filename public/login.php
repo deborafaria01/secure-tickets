@@ -1,6 +1,5 @@
 <?php
 session_start();
-<<<<<<< HEAD
 if (isset($_SESSION['username'])) {
     header("Location: dashboard.php");
     exit();
@@ -12,7 +11,7 @@ $error = $_GET['error'] ?? '';
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Login-SecureTickets</title>
+  <title>Login - SecureTickets</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center justify-content-center vh-100 bg-light">
@@ -41,31 +40,3 @@ $error = $_GET['error'] ?? '';
 
 </body>
 </html>
-
-=======
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    if ($_POST['username'] === 'admin' && $_POST['password'] === 'admin') {
-        $_SESSION['loggedin'] = true;
-        header('Location: events.php');
-        exit();
-    } else {
-        echo "Usuário ou senha inválidos.";
-    }
-}
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - SecureTickets</title>
-</head>
-<body>
-<h2>SecureTickets - Login</h2>
-<form method="post" action="login.php">
-    <label>Usuário:</label><input type="text" name="username" required><br>
-    <label>Senha:</label><input type="password" name="password" required><br>
-    <input type="submit" value="Entrar">
-</form>
-</body>
-</html>
->>>>>>> 819191369813a03488be523bbb05e6a6f987d4ff
