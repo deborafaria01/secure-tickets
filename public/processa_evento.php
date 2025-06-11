@@ -16,7 +16,9 @@ $data = $_POST['data_evento'];
 
 try {
     $db = new Database();
-    $stmt = $db->pdo->prepare("INSERT INTO eventos (nome, data_evento) VALUES (:nome, :data)");
+    $pdo = $db->connect(); // 🔧 Conexão correta usando o método
+
+    $stmt = $pdo->prepare("INSERT INTO eventos (nome, data_evento) VALUES (:nome, :data)");
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':data', $data);
     $stmt->execute();
@@ -28,3 +30,4 @@ try {
     die("Erro ao cadastrar evento: " . $e->getMessage());
 }
 ?>
+
